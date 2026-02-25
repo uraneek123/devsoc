@@ -6,13 +6,14 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import SearchIcon from "@mui/icons-material/Search";
 
 const pillButton = {
-  borderRadius: "9999px",
+  borderRadius: "10px",
   textTransform: "none" as const,
   fontWeight: 600,
   fontSize: "0.95rem",
   px: 3,
   py: 1,
   borderColor: "#e97724",
+  borderWidth: "3px",
   color: "#e97724",
   whiteSpace: "nowrap",
   "&:hover": {
@@ -25,7 +26,7 @@ export default function SearchToolbar() {
   return (
     <div className="mb-5 space-y-3 sm:space-y-0">
       {/* Desktop: single row */}
-      <div className="hidden sm:flex items-center gap-3">
+      <div className="hidden sm:flex items-center gap-10">
         <Button
           variant="outlined"
           startIcon={<FilterAltIcon />}
@@ -50,7 +51,7 @@ export default function SearchToolbar() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              borderRadius: "9999px",
+              borderRadius: "5px",
               backgroundColor: "#f9f9f9",
             },
           }}
@@ -83,12 +84,13 @@ export default function SearchToolbar() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              borderRadius: "9999px",
+              mb: "15px",
+              borderRadius: "5px",
               backgroundColor: "#f9f9f9",
             },
           }}
         />
-        <div className="flex gap-3">
+        <div className="flex gap-20">
           <Button
             variant="outlined"
             startIcon={<FilterAltIcon />}

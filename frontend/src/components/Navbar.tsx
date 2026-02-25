@@ -45,11 +45,11 @@ export default function Navbar() {
           </Typography>
         </Box>
 
-        <Box className="flex items-center gap-1">
+        <Box className="flex items-center gap-3">
           <IconButton
             sx={{
-              border: "2px solid #e97724",
-              borderRadius: "10px",
+              border: "1px solid #e97724",
+              borderRadius: "5px",
               color: "#e97724",
               width: 40,
               height: 40,
@@ -60,7 +60,7 @@ export default function Navbar() {
           <IconButton
             sx={{
               backgroundColor: "#e97724",
-              borderRadius: "10px",
+              borderRadius: "5px",
               color: "white",
               width: 40,
               height: 40,
@@ -71,8 +71,8 @@ export default function Navbar() {
           </IconButton>
           <IconButton
             sx={{
-              border: "2px solid #e97724",
-              borderRadius: "10px",
+              border: "1px solid #e97724",
+              borderRadius: "5px",
               color: "#e97724",
               width: 40,
               height: 40,
@@ -82,8 +82,8 @@ export default function Navbar() {
           </IconButton>
           <IconButton
             sx={{
-              border: "2px solid #e97724",
-              borderRadius: "10px",
+              border: "1px solid #e97724",
+              borderRadius: "5px",
               color: "#e97724",
               width: 40,
               height: 40,
