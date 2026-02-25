@@ -24,88 +24,47 @@ const pillButton = {
 
 export default function SearchToolbar() {
   return (
-    <div className="mb-5 space-y-3 sm:space-y-0">
-      {/* Desktop: single row */}
-      <div className="hidden sm:flex items-center gap-10">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-10 mb-5">
+      <TextField
+        className="order-1 sm:order-2"
+        placeholder="Search for a building..."
+        variant="outlined"
+        size="small"
+        fullWidth
+        slotProps={{
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "#999" }} />
+              </InputAdornment>
+            ),
+          },
+        }}
+        sx={{
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "5px",
+            backgroundColor: "#f9f9f9",
+          },
+        }}
+      />
+
+      <div className="order-2 flex justify-between sm:contents">
         <Button
+          className="sm:order-1!"
           variant="outlined"
           startIcon={<FilterAltIcon />}
           sx={pillButton}
         >
           Filters
         </Button>
-
-        <TextField
-          placeholder="Search for a building..."
-          variant="outlined"
-          size="small"
-          fullWidth
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#999" }} />
-                </InputAdornment>
-              ),
-            },
-          }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "5px",
-              backgroundColor: "#f9f9f9",
-            },
-          }}
-        />
-
         <Button
+          className="sm:order-3!"
           variant="outlined"
           startIcon={<FilterListIcon />}
           sx={pillButton}
         >
           Sort
         </Button>
-      </div>
-
-      {/* Mobile: search on top, buttons below */}
-      <div className="sm:hidden space-y-3">
-        <TextField
-          placeholder="Search for a building..."
-          variant="outlined"
-          size="small"
-          fullWidth
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon sx={{ color: "#999" }} />
-                </InputAdornment>
-              ),
-            },
-          }}
-          sx={{
-            "& .MuiOutlinedInput-root": {
-              mb: "15px",
-              borderRadius: "5px",
-              backgroundColor: "#f9f9f9",
-            },
-          }}
-        />
-        <div className="flex gap-20">
-          <Button
-            variant="outlined"
-            startIcon={<FilterAltIcon />}
-            sx={pillButton}
-          >
-            Filters
-          </Button>
-          <Button
-            variant="outlined"
-            startIcon={<FilterListIcon />}
-            sx={{ ...pillButton, ml: "auto" }}
-          >
-            Sort
-          </Button>
-        </div>
       </div>
     </div>
   );
