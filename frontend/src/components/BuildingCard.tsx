@@ -16,8 +16,6 @@ export default function BuildingCard({ building }: Props) {
         className="hidden sm:block"
         sx={{
           position: "relative",
-          borderRadius: "12px",
-          border: "2px solid #b3cde0",
           overflow: "hidden",
           height: "100%",
           cursor: "pointer",
@@ -33,6 +31,10 @@ export default function BuildingCard({ building }: Props) {
           src={building.image}
           alt={building.name}
           className="w-full h-60 object-cover"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/assets/placeholder.webp";
+          }}
         />
 
         <Box
@@ -40,20 +42,20 @@ export default function BuildingCard({ building }: Props) {
             position: "absolute",
             top: 10,
             right: 10,
-            display: "flex",
+            display: "flex",  
             alignItems: "center",
             gap: 0.5,
             backgroundColor: "white",
-            borderRadius: "9999px",
+            borderRadius: "10px",
             px: 1.5,
-            py: 0.5,
+            py: 1.0,
             boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
           }}
         >
           <FiberManualRecordIcon sx={{ fontSize: 12, color: "#4caf50" }} />
           <Typography
             variant="body2"
-            sx={{ fontWeight: 500, fontSize: "0.8rem", color: "#333" }}
+            sx={{ fontWeight: 500, fontSize: "0.7rem", color: "#333" }}
           >
             {building.roomsAvailable} rooms available
           </Typography>
@@ -62,18 +64,18 @@ export default function BuildingCard({ building }: Props) {
         <Box
           sx={{
             position: "absolute",
-            bottom: 0,
-            left: 0,
-            right: 0,
+            bottom: 5.0,
+            left: 5.0,
+            right: 5.0,
             backgroundColor: "#e97724",
             py: 1.2,
             px: 2,
-            borderRadius: "0 0 10px 10px",
+            borderRadius: "10px",
           }}
         >
           <Typography
             variant="body1"
-            sx={{ color: "white", fontWeight: 600, fontSize: "0.95rem" }}
+            sx={{ color: "white", fontWeight: 600, fontSize: "0.8rem" }}
           >
             {building.name}
           </Typography>
@@ -85,8 +87,6 @@ export default function BuildingCard({ building }: Props) {
         className="sm:hidden"
         sx={{
           position: "relative",
-          borderRadius: "12px",
-          border: "2px solid #b3cde0",
           overflow: "hidden",
           height: 140,
           cursor: "pointer",
@@ -97,6 +97,10 @@ export default function BuildingCard({ building }: Props) {
           src={building.image}
           alt={building.name}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "/assets/placeholder.webp";
+          }}
         />
 
         <Box
@@ -104,9 +108,9 @@ export default function BuildingCard({ building }: Props) {
             position: "absolute",
             inset: 0,
             display: "flex",
-            alignItems: "flex-end",
+            alignItems: "center",
             justifyContent: "space-between",
-            p: 1.5,
+            p: 2.5,
             background:
               "linear-gradient(transparent 40%, rgba(0,0,0,0.4) 100%)",
           }}
@@ -130,8 +134,8 @@ export default function BuildingCard({ building }: Props) {
               gap: 0.5,
               backgroundColor: "white",
               borderRadius: "9999px",
-              px: 1.5,
-              py: 0.5,
+              px: 2.5,
+              py: 1.5,
               boxShadow: "0 1px 4px rgba(0,0,0,0.12)",
               flexShrink: 0,
             }}
@@ -139,7 +143,7 @@ export default function BuildingCard({ building }: Props) {
             <FiberManualRecordIcon sx={{ fontSize: 12, color: "#4caf50" }} />
             <Typography
               variant="body2"
-              sx={{ fontWeight: 500, fontSize: "0.8rem", color: "#333" }}
+              sx={{ fontWeight: 600, fontSize: "0.8rem", color: "#333" }}
             >
               {building.roomsAvailable} / {building.roomsAvailable}
             </Typography>
