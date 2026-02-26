@@ -1,0 +1,15 @@
+{
+    "folders": [
+        {
+            "name": "py_template",
+            "path": "py_template",
+        },
+        {
+            "name": "ts_template",
+            "path": "ts_template",
+        }
+    ],
+    "settings": {
+        "python.defaultInterpreterPath": "${workspaceFolder:py_template}/venv/bin/python",
+    }
+}
