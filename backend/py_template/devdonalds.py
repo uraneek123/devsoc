@@ -1,16 +1,15 @@
 import re
-from dataclasses import dataclass
-from typing import List, Union, Literal, Annotated
+from typing import Annotated, List, Literal, Union
 
-import requests
 from flask import Flask, jsonify, request
+from pydantic import BaseModel, Field, TypeAdapter, ValidationError, field_validator
 
-from pydantic import BaseModel, Field, ValidationError, field_validator, TypeAdapter
 
 # ==== Type Definitions, feel free to add or modify ===========================
 class RequiredItem(BaseModel):
     name: str
     quantity: int
+
 
 class Recipe(BaseModel):
     type: Literal["recipe"]
@@ -27,18 +26,22 @@ class Recipe(BaseModel):
             seen.add(item.name.lower())
         return items
 
+
 class Ingredient(BaseModel):
     type: Literal["ingredient"]
     name: str
-    cookTime: Annotated[int, Field(ge=0)]  
+    cookTime: Annotated[int, Field(ge=0)]
+
 
 Cookbook = Annotated[Union[Recipe, Ingredient], Field(discriminator="type")]
 CookbookChecker = TypeAdapter(Cookbook)
+
 
 class RecipeSummary(BaseModel):
     name: str
     cookTime: int
     ingredients: List[RequiredItem]
+
 
 # =============================================================================
 # ==== HTTP Endpoint Stubs ====================================================
@@ -85,7 +88,7 @@ def create_entry():
 
     if not data:
         return "Invalid JSON", 400
-    
+
     try:
         entry = CookbookChecker.validate_python(data)
     except ValidationError as e:
@@ -93,7 +96,7 @@ def create_entry():
 
     if entry.name in cookbook:
         return jsonify({"error": f"Entry with name '{entry.name}' already exists"}), 400
-    
+
     cookbook[entry.name] = entry
     return {}, 200
 
@@ -103,36 +106,38 @@ def create_entry():
 
 cache = {}
 
+
 @app.route("/summary", methods=["GET"])
 def summary():
     name = request.args.get("name")
-
     if not name or name not in cookbook:
         return jsonify({"error": "Recipe not found"}), 400
-    
+
     if cookbook[name].type != "recipe":
         return jsonify({"error": "Requested entry is not a recipe"}), 400
-    
+
     def get_ingredients(item_name: str):
         if item_name in cache:
             return cache[item_name]
-        
+
         item = cookbook.get(item_name)
         if not item:
             raise ValueError(f"Item '{item_name}' not found in cookbook")
-        
+
         if item.type == "ingredient":
             result = (item.cookTime, {item_name: 1})
             cache[item_name] = result
             return result
-        
+
         total_time = 0
         ingredient_counts = {}
         for req_item in item.requiredItems:
             req_time, req_ingredients = get_ingredients(req_item.name)
             total_time += req_time * req_item.quantity
             for ing_name, ing_count in req_ingredients.items():
-                ingredient_counts[ing_name] = ingredient_counts.get(ing_name, 0) + ing_count * req_item.quantity
+                ingredient_counts[ing_name] = (
+                    ingredient_counts.get(ing_name, 0) + ing_count * req_item.quantity
+                )
 
         result = (total_time, ingredient_counts)
         cache[item_name] = result
@@ -143,12 +148,13 @@ def summary():
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
 
-    summary_ingredients = [RequiredItem(name=ing_name, quantity=ing_count) for ing_name, ing_count in ingredients.items()]
+    summary_ingredients = [
+        RequiredItem(name=ing_name, quantity=ing_count)
+        for ing_name, ing_count in ingredients.items()
+    ]
 
     summary = RecipeSummary(
-        name=name,
-        cookTime=total_cook_time,
-        ingredients=summary_ingredients
+        name=name, cookTime=total_cook_time, ingredients=summary_ingredients
     )
 
     return summary.model_dump(), 200
@@ -160,4 +166,3 @@ def summary():
 
 if __name__ == "__main__":
     app.run(debug=True, port=8080)
-    
